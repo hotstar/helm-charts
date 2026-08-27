@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "default_for_code_changes": "skip_wiki",
+  "generated_from": ["wiki/index.md", "wiki/map.md", "wiki pages"],
+  "routes": [
+    {
+      "name": "repo-onboarding",
+      "intent": "repo-onboarding",
+      "confidence": "high",
+      "coverage": "strong",
+      "match": {
+        "keywords": ["helm", "chart", "memgraph", "deploy", "kubernetes", "install"],
+        "paths": ["charts/**", "README.md"],
+        "symbols": []
+      },
+      "read": [
+        "overview/repo-overview.md",
+        "architecture/module-structure.md",
+        "engineering/how-to-set-up-the-service.md",
+        "operations/iac-info.md"
+      ],
+      "reason": "Onboarding requires understanding chart structure, setup commands, and infrastructure layout."
+    },
+    {
+      "name": "infrastructure-change",
+      "intent": "infrastructure-change",
+      "confidence": "high",
+      "coverage": "strong",
+      "match": {
+        "keywords": ["storage", "service", "statefulset", "pvc", "deployment", "configmap"],
+        "paths": ["charts/**/templates/**"],
+        "symbols": []
+      },
+      "read": [
+        "architecture/system-architecture.md",
+        "architecture/dependencies.md",
+        "operations/iac-info.md"
+      ],
+      "reason": "Template changes should respect documented architecture, dependencies, and Kubernetes resource patterns."
+    },
+    {
+      "name": "api-contract-change",
+      "intent": "api-contract-change",
+      "confidence": "high",
+      "coverage": "strong",
+      "match": {
+        "keywords": ["values", "parameter", "configuration", "env", "flag", "setting"],
+        "paths": ["**/values.yaml"],
+        "symbols": []
+      },
+      "read": [
+        "api/helm-chart-values-api.md",
+        "engineering/configuration.md"
+      ],
+      "reason": "Chart value changes should honor documented configuration API and env var contracts."
+    },
+    {
+      "name": "operations-change",
+      "intent": "operations-change",
+      "confidence": "high",
+      "coverage": "partial",
+      "match": {
+        "keywords": ["monitoring", "prometheus", "exporter", "secret", "backup", "recovery"],
+        "paths": ["charts/**/templates/mg-exporter.yaml", "docker-compose/**"],
+        "symbols": []
+      },
+      "read": [
+        "operations/iac-info.md",
+        "operations/secrets-and-config-management.md"
+      ],
+      "reason": "Operational changes to monitoring, secrets, or persistence should reference current IaC patterns."
+    },
+    {
+      "name": "data-change",
+      "intent": "data-change",
+      "confidence": "medium",
+      "coverage": "partial",
+      "match": {
+        "keywords": ["snapshot", "wal", "storage", "pvc", "persistent", "volume"],
+        "paths": ["**/values.yaml", "charts/**/templates/statefulset.yaml"],
+        "symbols": []
+      },
+      "read": [
+        "data/data-models.md",
+        "data/data-flow.md"
+      ],
+      "reason": "Storage changes should respect documented snapshot, WAL, and PVC configuration."
+    }
+  ]
+}
